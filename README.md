@@ -5,7 +5,9 @@ A repo for local LLM runncing MCP tools
 
 Step-by-Step Guide: Setting Up MCP Locally with Ollama LLMs Using TypeScript
 Here's a tailored guide specifically for using Ollama models instead of OpenAI:
+
 1. Set Up Your Development Environment
+
 bash# Create a new project directory
 mkdir ollama-mcp-local
 cd ollama-mcp-local
@@ -16,15 +18,20 @@ npm init -y
 # Install TypeScript and required dependencies
 npm install typescript ts-node @types/node --save-dev
 npm install langchain @langchain/core @langchain/ollama dotenv
+
 2. Download and Install Ollama
+
 First, download and install Ollama from https://ollama.com/download for your operating system:
 For macOS:
 bash# Download and install Ollama
 brew install ollama
+
 # Or use the macOS installer from the website
+
 For Linux:
 bash# Install Ollama
 curl -fsSL https://ollama.com/install.sh | sh
+
 For Windows:
 
 Download the Windows installer from https://ollama.com/download
@@ -36,18 +43,25 @@ ollama serve
 
 # In another terminal, pull a model (e.g., Llama3)
 ollama pull llama3
-# Or another model of your choice:
-# ollama pull mistral
-# ollama pull gemma:7b
+
+## ollama pull gemma:7b
+
 4. Configure Environment Variables
 bash# Create .env file
 echo "OLLAMA_BASE_URL=http://localhost:11434" > .env
+
 5. Set Up Project Structure
 bash# Create basic project structure
 mkdir -p src/tools src/models src/handlers src/utils src/config
 touch src/index.ts
+
 6. Set Up the Ollama LLM Integration
-typescript// src/models/ollamaModel.ts
+typescript
+
+bash# 
+touch src/models/ollamaModel.ts
+
+// src/models/ollamaModel.ts
 import { Ollama } from "@langchain/ollama";
 import { env } from "../config/env";
 
@@ -60,16 +74,28 @@ export async function setupOllamaLLM(modelName = "llama3") {
   
   return model;
 }
+
 7. Create Environment Configuration
-typescript// src/config/env.ts
+typescript
+
+bash# 
+touch src/config/env.ts
+
+// src/config/env.ts
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export const env = {
   ollamaBaseUrl: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
 };
+
 8. Define Tool Interfaces
-typescript// src/tools/toolInterfaces.ts
+typescript
+
+bash# 
+touch src/tools/toolInterfaces.ts
+
+// src/tools/toolInterfaces.ts
 export interface Tool {
   name: string;
   description: string;
@@ -80,8 +106,14 @@ export interface Tool {
     required: string[];
   };
 }
+
 9. Implement Example Tools
-typescript// src/tools/weatherTool.ts
+typescript
+
+bash# 
+touch src/tools/weatherTool.ts
+
+// src/tools/weatherTool.ts
 import { Tool } from "./toolInterfaces";
 
 export const weatherTool: Tool = {
@@ -107,8 +139,14 @@ export const weatherTool: Tool = {
     };
   }
 };
+
 10. Create the Tool Registry
-typescript// src/tools/toolRegistry.ts
+typescript
+
+bash# 
+touch src/tools/toolRegistry.ts
+
+// src/tools/toolRegistry.ts
 import { Tool } from "./toolInterfaces";
 import { weatherTool } from "./weatherTool";
 
@@ -118,8 +156,14 @@ const availableTools: Tool[] = [weatherTool];
 export function getTools(): Tool[] {
   return availableTools;
 }
+
 11. Implement Function Calling Handler
-typescript// src/handlers/functionHandler.ts
+typescript
+
+bash# 
+touch src/handlers/functionHandler.ts
+
+// src/handlers/functionHandler.ts
 import { Tool } from "../tools/toolInterfaces";
 
 export async function handleFunctionCall(
@@ -140,8 +184,14 @@ export async function handleFunctionCall(
     throw error;
   }
 }
+
 12. Create Function Calling Utilities for Ollama
-typescript// src/utils/functionCallingUtils.ts
+typescript
+
+bash# 
+touch src/utils/functionCallingUtils.ts
+
+// src/utils/functionCallingUtils.ts
 import { Tool } from "../tools/toolInterfaces";
 
 export function createSystemPrompt(tools: Tool[]) {
@@ -182,8 +232,11 @@ export function parseFunctionCall(text: string) {
     return null;
   }
 }
+
 13. Build the Main Orchestration Logic
-typescript// src/index.ts
+typescript
+
+// src/index.ts
 import { setupOllamaLLM } from "./models/ollamaModel";
 import { getTools } from "./tools/toolRegistry";
 import { createSystemPrompt, parseFunctionCall } from "./utils/functionCallingUtils";
@@ -250,8 +303,14 @@ async function main() {
 }
 
 main();
+
 14. Create a Simple Interactive Console Interface
-typescript// src/utils/consoleInterface.ts
+typescrip
+
+bash# 
+touch src/utils/consoleInterface.ts
+
+// src/utils/consoleInterface.ts
 import * as readline from "readline";
 
 export function createConsoleInterface() {
@@ -271,8 +330,11 @@ export function createConsoleInterface() {
     close: () => rl.close(),
   };
 }
+
 15. Update Main File with Interactive Console
-typescript// src/index.ts (updated with interactive console)
+typescript
+
+// src/index.ts (updated with interactive console)
 import { setupOllamaLLM } from "./models/ollamaModel";
 import { getTools } from "./tools/toolRegistry";
 import { createSystemPrompt, parseFunctionCall } from "./utils/functionCallingUtils";
@@ -356,8 +418,13 @@ async function main() {
 }
 
 main();
+
 16. Create TypeScript Configuration
-bash# Create tsconfig.json
+
+bash# 
+touch tsconfig.json
+
+// tsconfig.json
 cat > tsconfig.json << EOF
 {
   "compilerOptions": {
@@ -372,6 +439,7 @@ cat > tsconfig.json << EOF
   "include": ["src/**/*"]
 }
 EOF
+
 17. Add Scripts to package.json
 bash# Update package.json scripts
 cat > package.json << EOF
@@ -402,7 +470,9 @@ cat > package.json << EOF
   }
 }
 EOF
+
 18. Run Your Application
+
 bash# Make sure Ollama is running in another terminal or as a service
 ollama serve
 
