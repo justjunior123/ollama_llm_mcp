@@ -23,3 +23,37 @@ export const weatherTool: Tool = {
     };
   }
 };
+// -----------------------------------------
+
+// import axios from "axios";
+
+// execute: async (args) => {
+//     const { location } = args;
+
+//     // Replace with your OpenWeatherMap API key
+//     const apiKey = "YOUR_API_KEY";
+//     const apiUrl = `https://api.openweathermap.org/data/2.5/weather`;
+
+//     try {
+//       // Call the weather API
+//       const response = await axios.get(apiUrl, {
+//         params: {
+//           q: location,
+//           appid: apiKey,
+//           units: "imperial", // Use "metric" for Celsius
+//         },
+//       });
+
+//       const data = response.data;
+
+//       // Extract relevant weather information
+//       return {
+//         temperature: `${data.main.temp}°F`,
+//         conditions: data.weather[0].description,
+//         location: `${data.name}, ${data.sys.country}`,
+//       };
+//     } catch (error) {
+//       console.error("Error fetching weather data:", error);
+//       throw new Error("Failed to fetch weather data. Please check the location or try again later.");
+//     }
+//   },

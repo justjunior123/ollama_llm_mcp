@@ -8,7 +8,7 @@ async function main() {
   try {
     // Initialize the model and tools
     console.log("Setting up Ollama LLM...");
-    const model = await setupOllamaLLM("codellama");
+    const model = await setupOllamaLLM("gemma3");
     const tools = getTools();
     
     // Create system prompt with tool definitions
@@ -86,7 +86,7 @@ async function main2() {
   try {
     // Initialize the model and tools
     console.log("Setting up Ollama LLM...");
-    const model = await setupOllamaLLM("codellama");
+    const model = await setupOllamaLLM("gemma3");
     const tools = getTools();
     
     // Create system prompt with tool definitions
